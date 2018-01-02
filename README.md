@@ -13,7 +13,8 @@ This approach starts with the assumption that the proxy contract is part of our 
 Consider the following method:
 
 
-function <methodName>() returns(<type>){
+```
+function <methodName>() public returns(<type>){        
         <type> <varName>;
                 
         //do something with <varName>
@@ -25,14 +26,14 @@ function <methodName>() returns(<type>){
             revert();
         }
     }
-
+```
 
 To prepare this for use with our proxy we would transform it as follows, by creating a new variable for the return value, while changing the return type to boolean (recall that we intend to call this with <i>delegatecall</i> which assumes a boolean return value), and setting the new storage variable before returning.
 
 
 ---------------------------------
     <type> <varName>;
-    function <methodName>() returns(bool){
+    function <methodName>() public returns(bool){
         //do something
         <varName> = 6;
         if(<someConditonIndicatingSuccess>){
@@ -48,10 +49,11 @@ In the proxy we can the call the smart contract at address <i>currentVersion</i>
 
 Proxy/Interface method
 --------------------------------
+```
     address currentVersion = 0x000;
     
     <type> <varName>;
-    function <methodName>() returns(<returnTypeIfAny>){
+    function <methodName>() public returns(<returnTypeIfAny>){
         if(currentVersion.delegatecall(msg.data)){
             returns <varName>;
         }
@@ -59,6 +61,7 @@ Proxy/Interface method
             revert();
         }
     }
+```
 ---------------------------------
 
 Note that since the called contract uses the storage of the caller contract, the called contract's storage is not affected after calling a method within it using a <i>delegatecall</i>. To maintain type-safety, the variables with the same name in both contracts must have the same type. We can ensure this through an automatic procedure (WIP) transforming methods, as illustrated above.

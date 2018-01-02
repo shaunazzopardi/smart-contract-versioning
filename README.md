@@ -15,6 +15,7 @@ Consider the following method:
 
 function <methodName>() returns(<type>){
         <type> <varName>;
+                
         //do something with <varName>
 
         if(<someConditonIndicatingSuccess>){

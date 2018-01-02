@@ -79,4 +79,4 @@ Note that since the called contract uses the storage of the caller contract, the
 TODO
 ------------------------
 
-1. Secure setting new contract
+1. Secure setting contract version address

@@ -75,3 +75,8 @@ Note that since the called contract uses the storage of the caller contract, the
 [4] https://zupzup.org/smart-contract-interaction/
 
 [5] https://ethereum.stackexchange.com/questions/15164/how-can-i-get-delegatecall-to-return-data/15170
+
+TODO
+------------------------
+
+1. Secure setting new contract

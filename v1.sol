@@ -1,3 +1,5 @@
+pragma solidity 0.4.19;
+
 contract v1{
         
     //Template
@@ -7,7 +9,7 @@ contract v1{
     //Note that return type is always boolean, 
     //since we shall only call it using a delegate call, which assumes a boolean return value indicating success or failure
     //
-    //function <methodName>() returns(bool){
+    //function <methodName>() public returns(bool){
     //    //do something
     //    <varName> = 6;
     //    if(<someConditonIndicatingSuccess>){
@@ -19,7 +21,7 @@ contract v1{
     //}
     
     uint methodThatReturnsIntReturnValue;
-    function methodThatReturnsInt() returns(bool){
+    function methodThatReturnsInt() public returns(bool){
         //do something
         methodThatReturnsIntReturnValue = 6;
         if(true){
@@ -31,7 +33,7 @@ contract v1{
     }
     
     bool methodThatReturnsBoolReturnValue;
-    function methodThatReturnsBoolReturnValue() returns(bool){
+    function methodThatReturnsBoolReturnValue() public returns(bool){
         //do something
         methodThatReturnsBoolReturnValue = true;
         if(true){
@@ -42,7 +44,7 @@ contract v1{
         }
     }
     
-    function(){
+    function() public{
         revert();
     }
 }

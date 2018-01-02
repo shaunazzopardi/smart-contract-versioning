@@ -1,3 +1,5 @@
+pragma solidity 0.4.19;
+
 contract proxy{
     
     address currentVersion; //address to v1 contract on blockchain
@@ -5,7 +7,7 @@ contract proxy{
     //Template method proxy call
     //
     //<type> <varName>;
-    //function <methodName>() returns(<returnTypeIfAny>){
+    //function <methodName>() public returns(<returnTypeIfAny>){
     //    if(currentVersion.delegatecall(msg.data)){
     //        returns <varName>;
     //    }
@@ -16,7 +18,7 @@ contract proxy{
     
     //example method that returns uint
     uint methodThatReturnsIntReturnValue;
-    function methodThatReturnsInt() returns(uint){
+    function methodThatReturnsInt() public returns(uint){
         if(currentVersion.delegatecall(msg.data)){
             returns methodThatReturnsIntReturnValue;
         }
@@ -27,7 +29,7 @@ contract proxy{
     
     //example method that returns bool
     bool methodThatReturnsBoolReturnValue;
-    function methodThatReturnsInt() returns(bool){
+    function methodThatReturnsInt() public returns(bool){
         if(currentVersion.delegatecall(msg.data)){
             returns methodThatReturnsBoolReturnValue;
         }
@@ -36,7 +38,7 @@ contract proxy{
         }
     }
     
-    function(){
+    function() public{
         revert();
     }
 }

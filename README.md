@@ -3,7 +3,7 @@ A template for type-safe smart contract versioning on Ethereum.
 
 Due to the nature of a blockchain, smart contracts are (syntactically) immutable. Once a contract is created at a certain address, then its code cannot be changed during its lifetime. This creates problems for dealing with bugs in a contract, i.e. a bug cannot be repaired, but the repaired contract has to be re-created and written to the blockchain anew.
 
-Using a proxy contract and <i>delegatecalls</i> has been proposed as a solution to this (see [1, 2, 3, 4]). Here I describe an another approach to versioning also using this proxy pattern, but relying purely on Solidity constructs rather than relying on some assembly code. This approach also deals seamlessly with the size of return values, which other approaches hard code using assembly (e.g. to 32-bit see [2, 5]).
+Using a proxy contract and <i>delegatecalls</i> has been proposed as a solution to this (see [1, 2, 3, 4]). Here I describe another approach to versioning also using this proxy pattern, but relying purely on Solidity constructs rather than relying on some assembly code. This approach also deals seamlessly with the size of return values, which other approaches hard code using assembly (e.g. to 32-bit see [2, 5]).
 
 This approach starts with the assumption that the proxy contract is part of our Trusted Computing Base, i.e. we assume there are no bugs in it. We try to ensure this by keeping it as simple as possible. This contract's storage contains the state of the program, an <i>address</i> variable pointing to the current implementation version, and the methods exposed publicly. Before discussing how these methods look, a brief primer on <i>delegatecall</i> is needed.
 

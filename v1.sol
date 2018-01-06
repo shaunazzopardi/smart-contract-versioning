@@ -10,38 +10,29 @@ contract v1{
     //Note that return type is always boolean, 
     //since we shall only call it using a delegate call, which assumes a boolean return value indicating success or failure
     //
-    //function <methodName>() public returns(bool){
+    //function <methodName>() public{
     //    //do something
     //    <varName> = 6;
-    //    if(<someConditonIndicatingSuccess>){
-    //        return true;
-    //    }
-    //    else{
-    //        return false;
+    //    if(<someConditonIndicatingFailure>){
+    //        revert();
     //    }
     //}
     
     uint methodThatReturnsIntReturnValue;
-    function methodThatReturnsInt() public returns(bool){
+    function methodThatReturnsInt() public{
         //do something
         methodThatReturnsIntReturnValue = 6;
         if(true){
-            return true;
-        }
-        else{
-            return false;
+            revert();
         }
     }
     
     bool methodThatReturnsBoolReturnValue;
-    function methodThatReturnsBoolReturnValue() public returns(bool){
+    function methodThatReturnsBoolReturnValue() public{
         //do something
         methodThatReturnsBoolReturnValue = true;
         if(true){
-            return true;
-        }
-        else{
-            return false;
+            revert();
         }
     }
     

@@ -34,7 +34,7 @@ To prepare this for use with our proxy we would transform it as follows, by crea
     <type> <varName>;
     function <methodName>() public{
         //do something
-        <varName> = 6;
+        <varName> = <someValue>;
         if(<someConditonIndicatingFailure>){
             revert();
         }

@@ -1,7 +1,8 @@
 pragma solidity 0.4.19;
 
 contract v1{
-        
+    address currentVersion; //unused, but needed to have the exact same storage as the caller contract
+    
     //Template
     //
     //<type> <varName>;

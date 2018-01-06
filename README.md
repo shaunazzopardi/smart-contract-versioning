@@ -7,7 +7,9 @@ Using a proxy contract and <i>delegatecalls</i> has been proposed as a solution 
 
 This approach starts with the assumption that the proxy contract is part of our Trusted Computing Base, i.e. we assume there are no bugs in it. We try to ensure this by keeping it as simple as possible. This contract's storage contains the state of the program, an <i>address</i> variable pointing to the current implementation version, and the methods exposed publicly. Before discussing how these methods look, a brief primer on <i>delegatecall</i> is needed.
 
-<i>delegatecall</i> delegates methods calls to other contracts. We can pass as a parameter the payload of the current call by passing it <i>msg.data</i>. It allows the called contract to operate with the storage of the caller method, which makes it a bit of a security risk, but more on how to manage that risk in future work. It also does not allow any value to be returned, but assumes that the return value is a boolean, indicating success of the call. We can go around this using some assembly tricks, as mentioned before ([2, 5]), however this assumes the bit size of the return value. We take a different approach.
+<i>delegatecall</i> delegates methods calls to other contracts. We can pass as a parameter the payload of the current call by passing it <i>msg.data</i>. It allows the called contract to operate with the storage of the caller method, which makes it a bit of a security risk, but more on how to manage that risk in future work. Note that using <i>address.delegatecall</i> assumes that <i>address></i> points to a contract address with the <b>exact</b> same storage as the caller contract.
+
+It also does not allow any value to be returned, but assumes that the return value is a boolean, indicating success of the call. We can go around this using some assembly tricks, as mentioned before ([2, 5]), however this assumes the bit size of the return value. We take a different approach.
 
 
 Consider the following method:
@@ -19,28 +21,22 @@ function <methodName>() public returns(<type>){
                 
         //do something with <varName>
 
-        if(<someConditonIndicatingSuccess>){
-            return <varName>;
-        }
-        else{
+        if(<someConditonIndicatingFailure>){
             revert();
         }
     }
 ```
 
-To prepare this for use with our proxy we would transform it as follows, by creating a new variable for the return value, while changing the return type to boolean (recall that we intend to call this with <i>delegatecall</i> which assumes a boolean return value), and setting the new storage variable before returning.
+To prepare this for use with our proxy we would transform it as follows, by creating a new variable for the return value, while removing the return type (recall that we intend to call this with <i>delegatecall</i> which assumes a boolean return value indicating success, i.e. false on throwing and true otherwise), and setting the new storage variable before returning.
 
 
 ---------------------------------
     <type> <varName>;
-    function <methodName>() public returns(bool){
+    function <methodName>() public{
         //do something
         <varName> = 6;
-        if(<someConditonIndicatingSuccess>){
-            return true;
-        }
-        else{
-            return false;
+        if(<someConditonIndicatingFailure>){
+            revert();
         }
     }
 -----------------------------------
@@ -50,10 +46,10 @@ In the proxy we can the call the smart contract at address <i>currentVersion</i>
 Proxy/Interface method
 --------------------------------
 ```
-    address currentVersion = 0x000;
+    address currentVersion = <someAddress>;
     
     <type> <varName>;
-    function <methodName>() public returns(<returnTypeIfAny>){
+    function <methodName>() public returns(<type>){
         if(currentVersion.delegatecall(msg.data)){
             returns <varName>;
         }

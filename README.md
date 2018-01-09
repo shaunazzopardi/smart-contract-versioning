@@ -72,6 +72,8 @@ Note that since the called contract uses the storage of the caller contract, the
 
 [5] https://ethereum.stackexchange.com/questions/15164/how-can-i-get-delegatecall-to-return-data/15170
 
+[6] https://www.reddit.com/r/ethereum/comments/6ic49q/any_assembly_programmers_willing_to_write_a/
+
 TODO
 ------------------------
 
